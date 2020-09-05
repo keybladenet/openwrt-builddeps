@@ -1,9 +1,9 @@
 FROM debian:buster
 LABEL author="Bryan Vaz"
-LABEL version="1.0"
+LABEL version="1.1"
 LABEL copyright="2020, Bryan Vaz"
 
-RUN apt-get update &&\
+RUN apt-get update && \
     apt-get install -y \
       bash \
       bc \
@@ -49,6 +49,12 @@ RUN apt-get update &&\
     apt-get clean && \
     useradd -m user && \
     echo 'user ALL=NOPASSWD: ALL' > /etc/sudoers.d/user
+
+RUN echo "Installing AWS CLI ..." && \
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+      unzip awscliv2.zip && \
+      ./aws/install && \
+      rm -Rf aws
 
 ################################################
 # Change non-root User
